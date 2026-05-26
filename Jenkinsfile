@@ -54,26 +54,20 @@ pipeline {
                 }
             }
         }
-         stage('Deploy to Production') {
+        stage('Deploy to Production') {
             steps {
-                echo "Deploying via Docker Compose over SSH..."
+                echo "Deploying via Industry-Standard Docker Compose over SSH..."
                 
                 sshagent(['deployment_server_ssh']) {
                     sh """
-                        # 1. Copy the compose file over to the deployment server
-                        scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@${DEPLOYMENT_SERVER}:/home/ubuntu/docker-compose.yml
+                        # 1. Securely copy the docker-compose.yml file over
+                        scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@\${DEPLOYMENT_SERVER}:/home/ubuntu/docker-compose.yml
                         
-                        # 2. Log in and tell the deployment server's local engine to run it
-                        ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOYMENT_SERVER}'
-                            export DOCKER_USER="${DOCKER_USER}"
-                            export IMAGE_NAME="${IMAGE_NAME}"
-                            export IMAGE_TAG="${IMAGE_TAG}"
-                            
-                            docker compose up -d --pull always
-                            docker system prune -f
-                        '
+                        # 2. Execute commands cleanly on a structured, un-indented line payload
+                        ssh -o StrictHostKeyChecking=no ubuntu@\${DEPLOYMENT_SERVER} "export DOCKER_USER='${DOCKER_USER}' && export IMAGE_NAME='${IMAGE_NAME}' && export IMAGE_TAG='${IMAGE_TAG}' && cd /home/ubuntu && docker compose up -d --pull always && docker system prune -f"
                     """
                 }
+                echo "Deployment successfully executed!"
             }
         }
     }
