@@ -9,6 +9,7 @@ pipeline {
         IMAGE_NAME  = 'final-capstone-prject-pipeline'
         IMAGE_TAG   = "${BUILD_NUMBER}" // Uses Jenkins build number as unique tag
         DOCKERHUB_REPO = 'r3trodante/final_capstone_project'
+        DEPLOYMENT_SERVER = '172.31.6.123'
     }
     
     stages {
@@ -60,10 +61,10 @@ pipeline {
                 sshagent(['deployment_server_ssh']) {
                     sh """
                         # 1. Copy the compose file over to the deployment server
-                        scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@172.31.X.X:/home/ubuntu/docker-compose.yml
+                        scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@${DEPLOY_SERVER_IP}:/home/ubuntu/docker-compose.yml
                         
                         # 2. Log in and tell the deployment server's local engine to run it
-                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.X.X '
+                        ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOY_SERVER_IP}'
                             export DOCKER_USER="${DOCKER_USER}"
                             export IMAGE_NAME="${IMAGE_NAME}"
                             export IMAGE_TAG="${IMAGE_TAG}"
