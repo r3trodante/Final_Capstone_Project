@@ -77,7 +77,7 @@ pipeline {
                     // Give the Nginx container 5 seconds to gracefully initialize network bindings
                     sleep 5
                     // Run an automated HTTP header inspection against your deployment target
-                    def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://${env.DEPLOY_SERVER_IP}", returnStdout: true).trim()   
+                    def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://${DEPLOYMENT_SERVER}", returnStdout: true).trim()   
                     if (response == '200') {
                         echo "HEALTH CHECK PASSED: Portfolio application is active and serving HTTP 200 OK!"
                     } else {
