@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        /* CSS VARIABLES (For Easy Theme Switching) */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #0070f3;
+            --card-bg: #f5f5f7;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent-color: #0070f3;
+            --card-bg: #1c1c1e;
+            --nav-bg: rgba(0, 0, 0, 0.8);
+        }
+
+        /* GLOBAL STYLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            z-index: 100;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            padding: 0.3rem 0.7rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* HERO SECTION */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        header span {
+            color: var(--accent-color);
+        }
+
+        /* SECTION STYLES */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+        }
+
+        /* PROJECTS GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* CONTACT FORM */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 500px;
+        }
+
+        input, textarea, button {
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--card-bg);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo"><strong>MyPortfolio</strong></div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+            <button class="theme-toggle" id="themeBtn">Dark Mode</button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header>
+        <h1>Hi, I am <span>Karthikeyan</span></h1>
+        <p>I am a DevOps Engineer building clean, modern application pipelines.</p>
+    </header>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <h2>About Me</h2>
+        <p>I'm an aspiring DevOps Engineer who is skilled at tools like Jenkins, Docker, AWS, SonarQube, Prometheus, Grafana.</p>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Project One</h3>
+                <p>I have created a Full CI/CD pipeline for a Web Applicaiton ranging from Source Control, Testing, Build, Deploment and Monitoring using a variety of tools.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+        <h2>Contact</h2>
+        <form onsubmit="event.preventDefault(); alert('Message sent!');">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Your Name. All rights reserved.</p>
+    </footer>
+
+    <!-- JAVASCRIPT FOR THEME TOGGLE -->
+    <script>
+        const themeBtn = document.getElementById('themeBtn');
+        
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            let newTheme = 'light';
+            
+            if (currentTheme !== 'dark') {
+                newTheme = 'dark';
+                themeBtn.textContent = 'Light Mode';
+            } else {
+                themeBtn.textContent = 'Dark Mode';
+            }
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "emc-nodejs-app",
+  "version": "1.0.0",
+  "description": "A EMC Node.js app for Docker demo",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "mocha"
+  },
+  "author": "Karthikeyan",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
+  }
+}
