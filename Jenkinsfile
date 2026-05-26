@@ -53,17 +53,26 @@ pipeline {
                 }
             }
         }
-        stage('Deploy via Docker Compose') {
+         stage('Deploy to Production') {
             steps {
-                echo "Deploying container utilizing native Docker Context..."
-                // sshagent injects the keys required for the context to authenticate over SSH
+                echo "Deploying via Docker Compose over SSH..."
+                
                 sshagent(['deployment_server_ssh']) {
                     sh """
-                        # Tell Docker to execute the compose file against our remote context endpoint
-                        docker --context remote-deploy-server compose up -d --pull always
+                        # 1. Copy the compose file over to the deployment server
+                        scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@172.31.X.X:/home/ubuntu/docker-compose.yml
+                        
+                        # 2. Log in and tell the deployment server's local engine to run it
+                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.X.X '
+                            export DOCKER_USER="${DOCKER_USER}"
+                            export IMAGE_NAME="${IMAGE_NAME}"
+                            export IMAGE_TAG="${IMAGE_TAG}"
+                            
+                            docker compose up -d --pull always
+                            docker system prune -f
+                        '
                     """
                 }
-                echo "Deployment complete! Docker Compose handled orchestration successfully."
             }
         }
     }
