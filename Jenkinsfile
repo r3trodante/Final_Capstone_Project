@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent { 
+        label 'nodegroup1' // Fixed agent syntax
+    }
 
   environment {
     IMAGE_NAME = 'full-node-js-pipeline:latest'
@@ -22,7 +24,7 @@ pipeline {
                 def scannerHome = tool 'sonar' 
                 
                 withSonarQubeEnv('sonar_server') { 
-                    bat """
+                    sh """
                         "${scannerHome}\\bin\\sonar-scanner.bat" ^
                         -Dsonar.projectKey=demo-check ^
                         -Dsonar.projectName="SonarQube Jenkins Demo" ^
