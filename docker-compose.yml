@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  portfolio:
+    image: ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG}
+    container_name: portfolio-app
+    ports:
+      - "80:80"
+    restart: always
