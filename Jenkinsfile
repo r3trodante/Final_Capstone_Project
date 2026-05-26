@@ -70,5 +70,21 @@ pipeline {
                 echo "Deployment successfully executed!"
             }
         }
+        stage('Health Check') {
+            steps {
+                echo "Executing automated post-deployment smoke tests..."
+                script {
+                    // Give the Nginx container 5 seconds to gracefully initialize network bindings
+                    sleep 5
+                    // Run an automated HTTP header inspection against your deployment target
+                    def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://${env.DEPLOY_SERVER_IP}", returnStdout: true).trim()   
+                    if (response == '200') {
+                        echo "HEALTH CHECK PASSED: Portfolio application is active and serving HTTP 200 OK!"
+                    } else {
+                        error "HEALTH CHECK FAILED: Server returned HTTP status code: ${response}"
+                    }
+                }
+            }
+        }
     }
 }
