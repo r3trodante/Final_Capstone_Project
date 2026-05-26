@@ -61,10 +61,10 @@ pipeline {
                 sshagent(['deployment_server_ssh']) {
                     sh """
                         # 1. Copy the compose file over to the deployment server
-                        scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@${DEPLOY_SERVER_IP}:/home/ubuntu/docker-compose.yml
+                        scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@${DEPLOYMENT_SERVER}:/home/ubuntu/docker-compose.yml
                         
                         # 2. Log in and tell the deployment server's local engine to run it
-                        ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOY_SERVER_IP}'
+                        ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOYMENT_SERVER}'
                             export DOCKER_USER="${DOCKER_USER}"
                             export IMAGE_NAME="${IMAGE_NAME}"
                             export IMAGE_TAG="${IMAGE_TAG}"
