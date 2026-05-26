@@ -25,7 +25,7 @@ RUN rm -rf /usr/share/nginx/html/*
 # CRITICAL MULTI-STAGE STEP: 
 # Copy ONLY the static website files from the 'builder' stage 
 # straight into Nginx's web root directory, leaving behind all build tools.
-COPY --from=builder /app/ /usr/share/nginx/html/
+COPY --from=builder /app/src /usr/share/nginx/html/
 
 # Expose standard web traffic port 80
 EXPOSE 80
