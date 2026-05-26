@@ -53,5 +53,18 @@ pipeline {
                 }
             }
         }
+        stage('Deploy via Docker Compose') {
+            steps {
+                echo "Deploying container utilizing native Docker Context..."
+                // sshagent injects the keys required for the context to authenticate over SSH
+                sshagent(['deployment_server_ssh']) {
+                    sh """
+                        # Tell Docker to execute the compose file against our remote context endpoint
+                        docker --context remote-deploy-server compose up -d --pull always
+                    """
+                }
+                echo "Deployment complete! Docker Compose handled orchestration successfully."
+            }
+        }
     }
 }
