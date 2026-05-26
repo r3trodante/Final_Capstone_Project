@@ -23,7 +23,7 @@ pipeline {
                 script {
                     def scannerHome = tool 'sonar' 
                     withSonarQubeEnv('sonar_server') { 
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=demo-check -Dsonar.projectName=SonarQube_Jenkins_Demo -Dsonar.projectVersion=1.0 -Dsonar.sources=src/ -Dsonar.tests=test/ -Dsonar.test.inclusions=**/*.test.js"
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=stat-check -Dsonar.projectName=Final_Capstone_Project -Dsonar.projectVersion=1.0 -Dsonar.sources=src/ -Dsonar.tests=test/ -Dsonar.test.inclusions=**/*.test.js"
                     }
                 }
             }
